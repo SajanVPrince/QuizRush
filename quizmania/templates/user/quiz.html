@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .navbar-gradient {
+        background: linear-gradient(90deg, #ee649d, #dd1839);
+    }
+    .nav-link {
+        color: white !important;
+        transition: all 0.3s ease-in-out;
+    }
+    .nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    .timer {
+            position: fixed;  /* Keeps the timer in place even when scrolling */
+            top: 10%;        /* Position from the top */
+            right: 20px;      /* Position from the right */
+            background-color: #f44336;  /* Red background */
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    .alert {
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    transition: opacity 0.5s ease-in-out;
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+.alert-success {
+    background-color: #28a745;
+    color: white;
+    border-left: 5px solid #155724;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: white;
+    border-left: 5px solid #721c24;
+}
+
+.alert .fa {
+    margin-right: 10px;
+}
+
+/* Animation for the alert box */
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Fade out the message after 5 seconds */
+.alert-dismissible {
+    animation: fadeOut 1s 5s forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        display: none;
+    }
+}
+
+
+/* Style the message icons */
+.alert-success .fa-check-circle {
+    color: #28a745;
+    font-size: 1.5em;
+}
+
+.alert-danger .fa-times-circle {
+    color: #dc3545;
+    font-size: 1.5em;
+}
+.score-lives {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* Score Box Styling */
+.score-box, .lives-box {
+    background-color: #f0f8ff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.score-box:hover, .lives-box:hover {
+    transform: scale(1.05);
+    background-color: #e0f7fa;
+}
+
+/* Icons in the boxes */
+.score-box i, .lives-box i {
+    font-size: 2em;
+    margin-right: 10px;
+    color: #ff6347; /* Tomato red */
+}
+
+/* Score Section */
+.score-box {
+    background-color: #28a745;
+    color: white;
+}
+
+.score-box i {
+    color: #ffc107; /* Gold color for the trophy */
+}
+
+/* Lives Section */
+.lives-box {
+    background-color: #dc3545;
+    color: white;
+}
+
+.lives-box i {
+    color: #ff6347; /* Tomato red color for heart */
+}
+
+/* Styling for the text and number */
+.score-box p, .lives-box p {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.score-box span, .lives-box span {
+    font-size: 1.8em;
+    color: #ffffff;
+    font-weight: bold;
+}
+.timer {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;  /* Red for urgency */
+}
+
+/* Responsive design: stacking the score and lives boxes */
+@media (max-width: 768px) {
+    .score-lives .row {
+        flex-direction: column;
+    }
+
+    .score-box, .lives-box {
+        margin-bottom: 15px;
+    }
+}
+.footer {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-gradient">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold" href="home">QuizRush</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" style="margin-right: 6%;"><a class="nav-link" href="home">Home</a></li>
+                    <li class="nav-item" style="margin-right: 6%;"><a class="nav-link" href="leader">Leadersboard</a></li>
+                    <li class="nav-item" style="margin-right: 6%;"><a class="" href="login"><i class="fa-solid fa-circle-user" style="color: white;font-size: 25px;margin-top: 30%;"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- <div class="timer" id="timer">
+        Time Left: 00:00
+    </div> -->
+
+
+    <div class="container">
+        <h1 class="text-center">{{ question.text }}</h1>
+
+        <!-- Display success/error messages -->
+        
+
+        <form method="POST" action="{% url 'check_answer' %}">
+            {% csrf_token %}
+            <input type="hidden" name="question_id" value="{{ question.id }}">
+            
+            <!-- Answer Buttons -->
+            <div class="text-center">
+                <button type="submit" name="answer" value="A" class="btn btn-outline-primary btn-lg">{{ question.option_a }}</button>
+                <button type="submit" name="answer" value="B" class="btn btn-outline-primary btn-lg">{{ question.option_b }}</button><br><br>
+                <button type="submit" name="answer" value="C" class="btn btn-outline-primary btn-lg">{{ question.option_c }}</button>
+                <button type="submit" name="answer" value="D" class="btn btn-outline-primary btn-lg">{{ question.option_d }}</button><br><br>
+            </div>
+        </form>
+
+        <!-- Display score and lives -->
+        <div class="score-lives text-center">
+            <div class="row">
+                <!-- Score Section -->
+                <div class="col-12 col-md-6">
+                    <div class="score-box">
+                        <i class="fa fa-trophy"></i>
+                        <p><strong>Score:</strong> <span>{{ request.session.score }}</span></p>
+                    </div>
+                </div>
+        
+                <!-- Lives Section -->
+                <div class="col-12 col-md-6">
+                    <div class="lives-box">
+                        <i class="fa fa-heartbeat"></i>
+                        <p><strong>Lives:</strong> <span>{{ request.session.lives }}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    {% if feedback %}
+        <div class="alert alert-dismissible fade show text-center" role="alert">
+            <div class="alert alert-{{ feedback.class }}">
+                <!-- Show icons based on message type -->
+                {% if feedback.class == 'alert-success' %}
+                    <i class="fa fa-check-circle"></i>
+                {% elif feedback.class == 'alert-danger' %}
+                    <i class="fa fa-times-circle"></i>
+                {% endif %}
+                {{ feedback.message }}
+            </div>
+        </div>
+    {% endif %}
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Quiz Rush</p>
+        <p><b>Contact us :</b>quizrushinfo@gmail.com</p>
+    </div>
+
+</body>
+</html>
